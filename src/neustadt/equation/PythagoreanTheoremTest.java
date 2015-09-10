@@ -5,6 +5,7 @@ import org.junit.Test;
 
 public class PythagoreanTheoremTest {
 
+	
 	@Test
 	public void testSetAB() {
 		PythagoreanTheorem pythagoreanTheorum = new PythagoreanTheorem();
