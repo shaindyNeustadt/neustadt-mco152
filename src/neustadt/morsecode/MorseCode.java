@@ -3,14 +3,14 @@ package neustadt.morsecode;
 public class MorseCode {
 
 	public MorseCode() {
-	}
 
+	}
+	
 	public String encode(String message) {
 		StringBuilder encodedMessage = new StringBuilder();
 		String[] messageWords = message.split(" ");
 		for (int i = 0; i < messageWords.length; i++) {
-			char[] messageCharacters = messageWords[i].toLowerCase()
-					.toCharArray();
+			char[] messageCharacters = messageWords[i].toLowerCase().toCharArray();
 			for (int z = 0; z < messageCharacters.length; z++) {
 				for (Code c : Code.values()) {
 					if (messageCharacters[z] == (c.toString().charAt(0))) {
