@@ -11,7 +11,7 @@ public class ScrabbleDictionaryTest {
 	public void testContainsTrue() throws FileNotFoundException {
 		ScrabbleDictionary sd = new ScrabbleDictionary();
 		Assert.assertTrue(sd.contains("scientist"));
-	}
+		}
 
 	@Test
 	public void ContainsFalse() throws FileNotFoundException {

@@ -2,46 +2,43 @@ package neustadt.anagrams;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class MostAnagrams {
 	public static void main(String[] args) throws FileNotFoundException {
-		HashMap<HashSet<Character>, Integer> map = new HashMap<HashSet<Character>, Integer>();
+		HashMap<ArrayList<Character>, ArrayList<String>> map = new HashMap<ArrayList<Character>, ArrayList<String>>();
 		Scanner readDictionary = new Scanner(new File("./US.dic"));
-		HashSet<Character> set = null;
+		ArrayList<Character> charSet = null;
 		int maxNum = 0;
-		HashSet<Character> maxSet = null;
+		ArrayList<String> wordSet = null;
+		ArrayList<String> maxWordSet = null;
+
 		while (readDictionary.hasNext()) {
-			set = new HashSet<Character>();
-			char[] newWord = readDictionary.nextLine().toCharArray();
+			String nextWord = readDictionary.next();
+
+			charSet = new ArrayList<Character>();
+			char[] newWord = nextWord.toCharArray();
+
 			for (int i = 0; i < newWord.length; i++) {
-				set.add(newWord[i]);
+				charSet.add(newWord[i]);
 			}
-			if (map.containsKey(set)) {
-				Integer count = map.get(set);
-				map.put(set, count + 1);
+			Collections.sort(charSet);
+
+			if (map.containsKey(charSet)) {
+				map.get(charSet).add(nextWord);
 			} else {
-				// put words into map
-				map.put(set, 1);
+				wordSet = new ArrayList<String>();
+				wordSet.add(nextWord);
+				map.put(charSet, wordSet);
 			}
-			if (map.get(set) > maxNum) {
-				maxNum = map.get(set);
-		//		maxSet = new HashSet<Character>(map.getKey(set));
-				
+			if (map.get(charSet).size() > maxNum) {
+				maxNum = map.get(charSet).size();
+				maxWordSet = new ArrayList<String>(map.get(charSet));
+			}
 		}
-		/*int maxNum = 0;
-		HashSet<Character> maxSet = null;
-		for (Map.Entry<HashSet<Character>, Integer> entry : map.entrySet()) {
-			if (map.get(set) > maxNum) {
-				maxNum = map.get(set);
-				maxSet = new HashSet<Character>(entry.getKey());
-			}
-		}*/
-			
-}
-		System.out.println(maxNum + " Words "// + maxSet.toString()
-				);
+		System.out.println(maxNum + " Words: \n" + maxWordSet.toString());
 	}
 }

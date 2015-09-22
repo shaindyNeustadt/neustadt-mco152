@@ -1,23 +1,26 @@
 package neustadt.morsecode;
 
+import java.util.HashMap;
+
 public class MorseCode {
+	private HashMap<String, String> hashMap;
 
 	public MorseCode() {
-
+		this.hashMap = new HashMap<String, String>();
+		for (Code c : Code.values()) {
+			hashMap.put(c.toString(), c.getCodeValue());
+			hashMap.put(c.getCodeValue(), c.toString());
+		}
 	}
-	
+
 	public String encode(String message) {
 		StringBuilder encodedMessage = new StringBuilder();
 		String[] messageWords = message.split(" ");
 		for (int i = 0; i < messageWords.length; i++) {
-			char[] messageCharacters = messageWords[i].toLowerCase().toCharArray();
+			String[] messageCharacters = messageWords[i].toLowerCase()
+					.split("");
 			for (int z = 0; z < messageCharacters.length; z++) {
-				for (Code c : Code.values()) {
-					if (messageCharacters[z] == (c.toString().charAt(0))) {
-						encodedMessage.append(c.getCodeValue());
-						break;
-					}
-				}
+				encodedMessage.append(hashMap.get(messageCharacters[z]));
 				if (z + 1 < messageCharacters.length) {
 					encodedMessage.append(' ');
 				}
@@ -35,12 +38,7 @@ public class MorseCode {
 		for (int i = 0; i < codeWords.length; i++) {
 			String[] codeCharacters = codeWords[i].split(" ");
 			for (int z = 0; z < codeCharacters.length; z++) {
-				for (Code c : Code.values()) {
-					if (codeCharacters[z].equals(c.getCodeValue())) {
-						decodedMessage.append(c.toString());
-						break;
-					}
-				}
+				decodedMessage.append(hashMap.get(codeCharacters[z]));
 			}
 			if (i + 1 < codeWords.length) {
 				decodedMessage.append(' ');
