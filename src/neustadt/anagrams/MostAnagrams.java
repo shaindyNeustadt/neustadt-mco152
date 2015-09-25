@@ -1,24 +1,25 @@
 package neustadt.anagrams;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 public class MostAnagrams {
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		HashMap<ArrayList<Character>, ArrayList<String>> map = new HashMap<ArrayList<Character>, ArrayList<String>>();
-		Scanner readDictionary = new Scanner(new File("./US.dic"));
+		BufferedReader readDictionary = new BufferedReader(new FileReader("./US.dic"));
 		ArrayList<Character> charSet = null;
 		int maxNum = 0;
 		ArrayList<String> wordSet = null;
 		ArrayList<String> maxWordSet = null;
-
-		while (readDictionary.hasNext()) {
-			String nextWord = readDictionary.next();
-
+ 
+		String nextWord;
+		while ((nextWord = readDictionary.readLine()) != null) {
+			
 			charSet = new ArrayList<Character>();
 			char[] newWord = nextWord.toCharArray();
 
@@ -39,6 +40,7 @@ public class MostAnagrams {
 				maxWordSet = new ArrayList<String>(map.get(charSet));
 			}
 		}
+		readDictionary.close();
 		System.out.println(maxNum + " Words: \n" + maxWordSet.toString());
 	}
 }
