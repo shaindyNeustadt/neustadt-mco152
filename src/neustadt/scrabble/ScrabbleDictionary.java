@@ -1,18 +1,22 @@
 package neustadt.scrabble;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class ScrabbleDictionary {
 	private HashSet<String> dictionary;
 
-	public ScrabbleDictionary() throws FileNotFoundException {
+	public ScrabbleDictionary() throws IOException {
 		this.dictionary = new HashSet<String>();
-		Scanner readFile = new Scanner(new File("./US.dic"));
-		while (readFile.hasNext()) {
-			dictionary.add(readFile.next());
+		BufferedReader readFile = new BufferedReader(new FileReader("./US.dic"));
+		String nextLine;
+		while ((nextLine = readFile.readLine()) != null) {
+			dictionary.add(nextLine);
 		}
 	}
 
