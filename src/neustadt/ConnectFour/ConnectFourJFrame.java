@@ -1,5 +1,6 @@
 package neustadt.ConnectFour;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -42,8 +43,17 @@ public class ConnectFourJFrame extends JFrame {
 				public void actionPerformed(ActionEvent event) {
 					// System.out.println("Row: " + (cf.playMove(c1)+ 1) +
 					// " Column: " + (c1 + 1));
-
 					int row = cf.playMove(c1);
+					Color c;
+					if(cf.getCurrentPlayer() == 'r'){
+						c  = Color.RED;
+					}
+					else{
+						c = Color.YELLOW;
+					}
+					gameBoard[row][c1].setShapeColor(c);
+					cf.nextTurn();
+					
 					// cf.getBoard()[c1][row] = 'y';
 
 				}
