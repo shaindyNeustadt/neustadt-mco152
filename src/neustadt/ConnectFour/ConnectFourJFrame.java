@@ -29,6 +29,7 @@ public class ConnectFourJFrame extends JFrame {
 		setTitle("Connect Four");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setBackground(Color.BLUE);
 
 		final GridLayout layout = new GridLayout(7, 7);
 		final Container container = getContentPane();
@@ -37,12 +38,15 @@ public class ConnectFourJFrame extends JFrame {
 		for (int c = 0; c < columns.length; c++) {
 			container.add(columns[c] = new JButton("COLUMN " + (c + 1)));
 			final int c1 = c;
+		
 			columns[c].addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent event) {
-					// System.out.println("Row: " + (cf.playMove(c1)+ 1) +
-					// " Column: " + (c1 + 1));
+					
+					if(cf.isOver() || cf.won()){
+						return;
+					}
 					int row = cf.playMove(c1);
 					Color c;
 					if(cf.getCurrentPlayer() == 'r'){
@@ -51,11 +55,12 @@ public class ConnectFourJFrame extends JFrame {
 					else{
 						c = Color.YELLOW;
 					}
-					gameBoard[row][c1].setShapeColor(c);
+					gameBoard[row][c1].setColor(c);
+					if(cf.isOver() || cf.won()){
+						return;
+					}
 					cf.nextTurn();
 					
-					// cf.getBoard()[c1][row] = 'y';
-
 				}
 
 			});
@@ -63,13 +68,10 @@ public class ConnectFourJFrame extends JFrame {
 
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard[i].length; j++) {
-				container.add(gameBoard[i][j] = new PieceComponent(cf),
+				container.add(gameBoard[i][j] = new PieceComponent(),
 						getLayout());
 			}
 		}
 	}
-
-	public PieceComponent[][] getGameBoard() {
-		return gameBoard;
+	
 	}
-}

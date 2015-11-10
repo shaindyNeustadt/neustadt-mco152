@@ -37,11 +37,7 @@ public class ConnectFour {
 	public char[][] getBoard(){
 		return board;
 	}
-	/*public Player getCurrPlayer() {
-		return new Player(getCurrentPlayer().getName(), getCurrentPlayer()
-				.getColor());
-	}*/
-
+	
 	public void nextTurn() {
 		this.turn++;
 	}
