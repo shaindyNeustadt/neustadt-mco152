@@ -13,7 +13,7 @@ public class ConnectFour {
 		this.board = new char[6][7];
 		this.turn = 0;
 	}
-
+	
 	public char getCurrentPlayer() {
 		if (turn % 2 == 1) {
 			return player1;

@@ -2,13 +2,9 @@ package neustadt.ConnectFour;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -29,10 +25,11 @@ public class ConnectFourJFrame extends JFrame {
 		setTitle("Connect Four");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBackground(Color.BLUE);
+		
 
 		final GridLayout layout = new GridLayout(7, 7);
 		final Container container = getContentPane();
+		container.setBackground(Color.BLUE);
 		container.setLayout(layout);
 
 		for (int c = 0; c < columns.length; c++) {
@@ -45,8 +42,10 @@ public class ConnectFourJFrame extends JFrame {
 				public void actionPerformed(ActionEvent event) {
 					
 					if(cf.isOver() || cf.won()){
+						newGame();
 						return;
-					}
+					}		
+					cf.nextTurn();
 					int row = cf.playMove(c1);
 					Color c;
 					if(cf.getCurrentPlayer() == 'r'){
@@ -56,11 +55,7 @@ public class ConnectFourJFrame extends JFrame {
 						c = Color.YELLOW;
 					}
 					gameBoard[row][c1].setColor(c);
-					if(cf.isOver() || cf.won()){
-						return;
-					}
-					cf.nextTurn();
-					
+						
 				}
 
 			});
@@ -74,4 +69,12 @@ public class ConnectFourJFrame extends JFrame {
 		}
 	}
 	
+	public void newGame(){
+		cf = new ConnectFour();
+		for (int i = 0; i < gameBoard.length; i++) {
+			for (int j = 0; j < gameBoard[i].length; j++) {
+				gameBoard[i][j].setColor(Color.WHITE);
+			}
+		}
+	}
 	}

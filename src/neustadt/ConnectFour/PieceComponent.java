@@ -16,7 +16,7 @@ public class PieceComponent extends JComponent {
 	public void setColor(Color color)
     {
       this.color = color; 
-    }
+     }
 	
 	@Override
 	protected void paintComponent(Graphics g) {
