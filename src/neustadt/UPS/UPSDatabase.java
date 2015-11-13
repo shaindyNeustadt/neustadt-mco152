@@ -13,9 +13,10 @@ import java.util.Set;
  */
 public class UPSDatabase {
 private HashMap<Package, Location> tracking;
-
+	private HashMap<Location, Set<Package>> tracking1;
 public UPSDatabase(){
 	tracking = new HashMap<Package, Location>();
+	tracking1 = new HashMap<Location, Set<Package>>();
 }
 	/**
 	 * Add a package to the specified Location
