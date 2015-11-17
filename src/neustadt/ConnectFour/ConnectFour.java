@@ -23,7 +23,7 @@ public class ConnectFour {
 
 	public int playMove(int column) {
 		int row = -1;
-
+		
 		while (isValidMove(row + 1, column)) {
 			row++;
 		}
@@ -31,7 +31,7 @@ public class ConnectFour {
 			throw new IllegalMoveException();
 		}
 		board[row][column] = getCurrentPlayer();
-		
+		nextTurn();
 		return row;
 	}
 	public char[][] getBoard(){
@@ -51,10 +51,10 @@ public class ConnectFour {
 	}
 
 	public boolean isOver() {
-		return (turn == 42);
+		return (turn == 43);
 	}
 
-	public boolean won() {
+	public boolean isWinner() {
 		char currPlayerColor = getCurrentPlayer();
 		int counter;
 

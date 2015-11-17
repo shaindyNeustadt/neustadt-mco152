@@ -41,21 +41,27 @@ public class ConnectFourJFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent event) {
 					
-					if(cf.isOver() || cf.won()){
+					if(cf.isOver() || cf.isWinner()){
 						newGame();
 						return;
-					}		
-					cf.nextTurn();
+					}
+					
+					try{
 					int row = cf.playMove(c1);
-					Color c;
+					Color color;
 					if(cf.getCurrentPlayer() == 'r'){
-						c  = Color.RED;
+						color  = Color.RED;
 					}
 					else{
-						c = Color.YELLOW;
+						color = Color.YELLOW;
 					}
-					gameBoard[row][c1].setColor(c);
-						
+					gameBoard[row][c1].setColor(color);
+					}catch(IllegalMoveException ex){;}	
+					
+					if(cf.isOver() || cf.isWinner()){
+						newGame();
+						return;
+					}
 				}
 
 			});

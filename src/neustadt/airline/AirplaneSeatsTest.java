@@ -43,9 +43,9 @@ public class AirplaneSeatsTest {
 	 * Tests that reserve() reserves a seat correctly.
 	 */
 	public void testReserve() throws AlreadyReservedException, SeatOutOfBoundsException {
-		AirplaneSeats seats = new AirplaneSeats(1,1);
-		seats.reserve("A1");
-		
+		AirplaneSeats seats = new AirplaneSeats(3, 4);
+		seats.reserve("B1");
+		Assert.assertEquals("  ABCD\n" + "1 o#oo\n" + "2 oooo\n" + "3 oooo\n", seats.toString());
 	}
 	
 	@Test
@@ -105,7 +105,13 @@ public class AirplaneSeatsTest {
 	 * Tests that reserveGroup() reserves the correct seats when called on an empty plane.
 	 */
 	public void testReserveGroupOnEmptyPlane() throws NotEnoughSeatsException {
-		Assert.fail("Test not implemented");
+		AirplaneSeats seats = new AirplaneSeats(3,4);
+		ArrayList<String> s = new ArrayList<String>();
+		s.add("A1");
+		s.add("B1");
+		s.add("C1");
+		s.add("D1");
+		Assert.assertEquals(s, seats.reserveGroup(4));
 	}
 
 	@Test
@@ -122,7 +128,7 @@ public class AirplaneSeatsTest {
 		s.add("B2");
 		s.add("C2");
 		s.add("D2");
-		//Assert.assertEquals(s, seats.reserveGroup(4));
+		Assert.assertEquals(s, seats.reserveGroup(4));
 	} 
 	
 	@Test
@@ -131,7 +137,13 @@ public class AirplaneSeatsTest {
 	 * seats available together for the group.
 	 */
 	public void testReserveGroupThrowsNotEnoughSeatsException() {
-		Assert.fail("Test not implemented");
+		AirplaneSeats seats = new AirplaneSeats(3,4);
+		try {
+			seats.reserveGroup(5);
+			Assert.fail("reserve() should've thrown an Exception");
+		} catch (NotEnoughSeatsException e) {
+			// This is expected so catch it so the test passes
+		}
 	}
 	
 }

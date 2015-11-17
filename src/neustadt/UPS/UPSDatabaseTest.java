@@ -47,9 +47,8 @@ public class UPSDatabaseTest {
 	 */
 	public void testGetPackagesReturnsAnEmptySet() {
 		UPSDatabase ups = new UPSDatabase();
-		Assert.assertTrue(ups.getPackages(new Location(32, 32)).size()== 0);
-		//Assert.assertNull(ups.getPackages(new Location(32, 32)));
-	}
+		Assert.assertTrue(ups.getPackages(new Location(32, 32)).isEmpty());
+		}
 	
 	@Test
 	/**

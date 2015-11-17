@@ -2,7 +2,6 @@ package neustadt.airline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class is part of an Airline Reservation system. It holds seats that are
@@ -18,28 +17,22 @@ public class AirplaneSeats {
 	 *            the number of columns of seats on the plane.
 	 */
 
-	private HashMap<Integer, ArrayList<String>> map;
-	private HashMap<Character, Integer> conversion;
+	private HashMap<String, String> map;
+	private int rows;
+	private int columns;
 
 	public AirplaneSeats(int rows, int columns) {
-		this.map = new HashMap<Integer, ArrayList<String>>();
-		this.conversion = new HashMap<Character, Integer>();
+		this.map = new HashMap<String, String>();
+		this.rows = rows;
+		this.columns = columns;
 
 		for (int i = 1; i <= rows; i++) {
-			ArrayList<String> current = new ArrayList<String>();
-			for (int x = 0; x < columns; x++) {
-				current.add("o");
+			for (char c = 'A'; c < columns + 65; c++) {
+				map.put((c + String.valueOf(i)), "o");
 			}
-			map.put(i, current);
-		}
-		setConversion();
-	}
 
-	private void setConversion() {
-		String base26Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		for (int c = 0; c < 25; c++) {
-			conversion.put(base26Chars.charAt(c), c);
 		}
+
 	}
 
 	/**
@@ -52,21 +45,16 @@ public class AirplaneSeats {
 	 *             if the seat is outside the columns and rows set in the
 	 *             constructor
 	 */
-	public void reserve(String seatName) throws AlreadyReservedException, SeatOutOfBoundsException {
+	public void reserve(String seatName) throws AlreadyReservedException,
+			SeatOutOfBoundsException {
 
-		int column = conversion.get(seatName.charAt(0));
-		Integer row = Integer.parseInt(seatName.substring(1));
-		ArrayList<String> string = new ArrayList<String>(map.get(row));
-		if (string.get(column).equals("#")) {
-			throw new AlreadyReservedException();
-		}
-		if (column >= string.size() || column < 0 || !map.containsKey(row)) {
+		if (!map.containsKey(seatName)) {
 			throw new SeatOutOfBoundsException();
 		}
-
-		string.set(column, "#");
-		map.put(row, string);
-
+		if (isReserved(seatName)) {
+			throw new AlreadyReservedException();
+		}
+		map.put(seatName, "#");
 	}
 
 	/**
@@ -76,10 +64,7 @@ public class AirplaneSeats {
 	 * @return true if the seat has been reserved, otherwise false.
 	 */
 	public boolean isReserved(String seatName) {
-		int column = conversion.get(seatName.charAt(0)) - 1;
-		Integer row = Integer.parseInt(seatName.substring(1));
-		return map.get(row).get(column).equals("#");
-
+		return map.get(seatName).equals("#");
 	}
 
 	/**
@@ -94,7 +79,8 @@ public class AirplaneSeats {
 	 *             if one of the seats is outside the columns and rows set in
 	 *             the constructor
 	 */
-	public void reserveAll(String... seatNames) throws AlreadyReservedException, SeatOutOfBoundsException {
+	public void reserveAll(String... seatNames)
+			throws AlreadyReservedException, SeatOutOfBoundsException {
 		for (String seatName : seatNames) {
 			reserve(seatName);
 		}
@@ -114,15 +100,21 @@ public class AirplaneSeats {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-
-		String base26Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		
 		builder.append("  ");
-		for (int i = 0; i < map.get(0).size(); i++) {
-			builder.append(base26Chars.charAt(i));
+		for (char c = 'A'; c < columns + 65; c++) {
+			builder.append(c);
 		}
-		builder.append("\n/n");
-		for (Map.Entry<Integer, ArrayList<String>> entry : map.entrySet()) {
-			builder.append(entry.getKey() + " " + entry.getValue().toString() + "\n/n");
+		builder.append("\n");
+		
+		for (int i = 1; i <= rows; i++) {
+			builder.append(i + " ");
+		
+			for (char c = 'A'; c < columns + 65; c++) {
+				String seatName = c + String.valueOf(i);
+				builder.append(map.get(seatName));
+					}
+		builder.append("\n");
 		}
 		return builder.toString();
 	}
@@ -138,32 +130,33 @@ public class AirplaneSeats {
 	 * @throws NotEnoughSeatsException
 	 *             if there are not enough seats together to reserve.
 	 */
-	/*public ArrayList<String> reserveGroup(int numberOfSeatsTogether) throws NotEnoughSeatsException {
+
+	public ArrayList<String> reserveGroup(int numberOfSeatsTogether)
+			throws NotEnoughSeatsException {
 		ArrayList<String> spots = new ArrayList<String>();
 
-		for (Map.Entry<Integer, ArrayList<String>> entry : map.entrySet()) {
-			spots = null;
-			for (int i = 0; i < entry.getValue().size(); i++) {
-				if (entry.getValue().get(i).equals("o")) {
-					spots.append(conversion.get(key) + entry.getKey());
+		for (int i = 1; i <= rows; i++) {
+			for (char c = 'A'; c < columns + 65; c++) {
+				String seatName = c + String.valueOf(i);
+				if (map.get(seatName).equals("o")) {
+					spots.add(seatName);
+					if (spots.size() == numberOfSeatsTogether) {
+						return spots;
+					}
+				} else {
+					spots.clear();
 				}
 			}
+			spots.clear();
 		}
-
-	}*/
+		throw new NotEnoughSeatsException();
+	}
 
 	/**
 	 * @return true if the plane is full, otherwise false.
 	 */
 	public boolean isPlaneFull() {
-		for (Map.Entry<Integer, ArrayList<String>> entry : map.entrySet()) {
-			for (int i = 0; i < entry.getValue().size(); i++) {
-				if (entry.getValue().get(i).equals("o")) {
-					return false;
-				}
-			}
-		}
-		return true;
+		return !map.containsValue("o");
 	}
 
 }
