@@ -14,6 +14,7 @@ public class PieceComponent extends JComponent {
 
 	public void setColor(Color color) {
 		this.color = color;
+		repaint();
 	}
 
 	@Override
@@ -21,7 +22,5 @@ public class PieceComponent extends JComponent {
 		super.paintComponent(g);
 		g.setColor(color);
 		g.fillOval((getWidth() - 70) / 2, (getHeight() - 70) / 2, 70, 70);
-
-		super.repaint();
 	}
 }

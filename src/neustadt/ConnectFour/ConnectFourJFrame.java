@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ConnectFourJFrame extends JFrame {
+	
 	public static void main(String[] args) {
 		new ConnectFourJFrame().setVisible(true);
 	}
@@ -56,8 +57,8 @@ public class ConnectFourJFrame extends JFrame {
 
 		for (int i = 0; i < gameBoard.length; i++) {
 			for (int j = 0; j < gameBoard[i].length; j++) {
-				container.add(gameBoard[i][j] = new PieceComponent(),
-						getLayout());
+				gameBoard[i][j] = new PieceComponent();
+				container.add(gameBoard[i][j], getLayout());
 			}
 		}
 	}
