@@ -19,7 +19,7 @@ public class WeatherGUI extends JFrame {
 	private JLabel zip;
 	private JTextField zipcode;
 	private JLabel temperature;
-	private JLabel image1;
+	private JLabel icon;
 	private JButton button;
 	private JLabel description;
 
@@ -35,37 +35,15 @@ public class WeatherGUI extends JFrame {
 		zipcode = new JTextField();
 		temperature = new JLabel("");
 		button = new JButton("Get Current Weather");
-		image1 = new JLabel();
+		icon = new JLabel();
 
 		description = new JLabel();
 
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				try {
-					WeatherRequest request = new WeatherRequest(zipcode
-							.getText());
-					CurrentWeather currWeather = request.getCurrentWeather();
-					
-					temperature.setText(String.valueOf(currWeather.getTemp())
-							+ "° F");
-					
-					StringBuilder builder = new StringBuilder();
-					builder.append("http://openweathermap.org/img/w/");
-					builder.append(currWeather.getIcon());
-					builder.append(".png");
-					
-					URL url = new URL(builder.toString());
-					BufferedImage image = ImageIO.read(url);
-					image1.setIcon(new ImageIcon(image));
-					
-					description.setText(currWeather.getDescription());
-					
-				} catch (IOException | NullPointerException e) {
-					temperature.setText("Invalid zipcode");
-					image1.setIcon(null);
-					description.setText("");
-				}
+				CurrentWeatherThread thread = new CurrentWeatherThread(zipcode, temperature, icon, description);
+				thread.start();
 			}
 		});
 		
@@ -73,7 +51,7 @@ public class WeatherGUI extends JFrame {
 		container.add(zip);
 		container.add(zipcode);
 		container.add(temperature);
-		container.add(image1);
+		container.add(icon);
 		container.add(description);
 	}
 }
