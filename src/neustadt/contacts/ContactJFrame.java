@@ -12,6 +12,10 @@ import javax.swing.ListSelectionModel;
 
 public class ContactJFrame extends JFrame {
 
+	public static void main(String[] args) throws IOException {
+		new ContactJFrame().setVisible(true);
+	}
+
 	private JList<String> list;
 
 	public ContactJFrame() throws IOException {
@@ -44,9 +48,5 @@ public class ContactJFrame extends JFrame {
 		});
 
 		container.add(list, BorderLayout.CENTER);
-	}
-
-	public static void main(String[] args) throws IOException {
-		new ContactJFrame().setVisible(true);
 	}
 }
