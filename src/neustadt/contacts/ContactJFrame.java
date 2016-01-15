@@ -42,7 +42,7 @@ public class ContactJFrame extends JFrame {
 				if (evt.getClickCount() == 2) {
 					int index = list.locationToIndex(evt.getPoint());
 					new ContactInfoJFrame(index, thread).setVisible(true);
-					;
+					
 				}
 			}
 		});
