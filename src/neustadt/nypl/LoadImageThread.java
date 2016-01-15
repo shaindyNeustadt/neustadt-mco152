@@ -26,14 +26,16 @@ public class LoadImageThread extends Thread {
 	private JButton prev;
 	private JButton next;
 	private int numResults;
+	private int count;
 
-	public LoadImageThread(int index, SearchThread searchThread, JLabel image, JLabel number, JButton prev, JButton next) {
+	public LoadImageThread(int index, SearchThread searchThread, JLabel image, JLabel number, JButton prev, JButton next, int count) {
 		this.index = index;
 		this.searchThread = searchThread;
 		this.image = image;
 		this.number = number;
 		this.prev = prev;
 		this.next = next;
+		this.count = count;
 	}
 
 	public void run() {
@@ -51,19 +53,19 @@ public class LoadImageThread extends Thread {
 
 			nyplAPI = gson.fromJson(reader, NYPLAPI.class);
 
-			URL imageUrl = new URL(nyplAPI.getResponse().getCaptureURL(0));
+			URL imageUrl = new URL(nyplAPI.getResponse().getCaptureURL(count));
 
 			BufferedImage bufferedImage = ImageIO.read(imageUrl);
 
 			image.setIcon(new ImageIcon(bufferedImage));
 			numResults = Integer.parseInt(nyplAPI.getResponse().getNumResults());
-			number.setText((index + 1) + "/" + numResults);
+			number.setText((count + 1) + "/" + numResults);
 
-			if(index == 0){
+			if(count == 0){
 				next.setEnabled(true);
 				prev.setEnabled(false);
 			}
-			else if(index == numResults -1){
+			else if(count == numResults -1){
 				prev.setEnabled(true);
 				next.setEnabled(false);
 			}

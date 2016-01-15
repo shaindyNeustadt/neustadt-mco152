@@ -78,8 +78,8 @@ public class SearchJFrame extends JFrame {
 		prev.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				index -= 1;
-				loadImage = new LoadImageThread(index, searchThread, image, number, prev, next);
+				count -= 1;
+				loadImage = new LoadImageThread(index, searchThread, image, number, prev, next, count);
 				loadImage.start();
 			}
 		});
@@ -87,8 +87,8 @@ public class SearchJFrame extends JFrame {
 		next.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				index += 1;
-				loadImage = new LoadImageThread(index, searchThread, image, number, prev, next);
+				count += 1;
+				loadImage = new LoadImageThread(index, searchThread, image, number, prev, next, count);
 				loadImage.start();
 			}
 		});
@@ -108,9 +108,10 @@ public class SearchJFrame extends JFrame {
 
 				list.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent evt) {
+						count = 0;
 						JList list = (JList) evt.getSource();
 						index = list.locationToIndex(evt.getPoint());
-						loadImage = new LoadImageThread(index, searchThread, image, number, prev, next);
+						loadImage = new LoadImageThread(index, searchThread, image, number, prev, next, count);
 						loadImage.start();
 						}
 				});
