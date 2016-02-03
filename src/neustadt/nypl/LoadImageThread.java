@@ -61,6 +61,11 @@ public class LoadImageThread extends Thread {
 			numResults = Integer.parseInt(nyplAPI.getResponse().getNumResults());
 			number.setText((count + 1) + "/" + numResults);
 
+			if(numResults == 1){
+				prev.setEnabled(false);
+				next.setEnabled(false);
+			}
+			else{
 			if(count == 0){
 				next.setEnabled(true);
 				prev.setEnabled(false);
@@ -72,6 +77,7 @@ public class LoadImageThread extends Thread {
 			else{
 				prev.setEnabled(true);
 				next.setEnabled(true);
+			}
 			}
 			
 			

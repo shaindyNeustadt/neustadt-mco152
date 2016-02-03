@@ -3,7 +3,6 @@ package neustadt.nypl;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,9 +17,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
-import neustadt.contacts.ContactInfoJFrame;
-import neustadt.weather16day.CurrentWeatherThread;
 
 public class SearchJFrame extends JFrame {
 
@@ -38,6 +34,8 @@ public class SearchJFrame extends JFrame {
 	private int index;
 	private int count;
 	private LoadImageThread loadImage;
+	private JList<String> list;
+	private DefaultListModel<String> listModel;
 
 	public SearchJFrame() {
 
@@ -75,6 +73,9 @@ public class SearchJFrame extends JFrame {
 
 		panelCenter.add(pane, BorderLayout.CENTER);
 
+		list = new JList<String>();
+		listModel = new DefaultListModel<String>();
+		
 		prev.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -99,13 +100,10 @@ public class SearchJFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				DefaultListModel<Result> listModel = new DefaultListModel<Result>();
-				searchThread = new SearchThread(searchItem, listModel);
+				list.removeAll();
+				listModel.removeAllElements();
+				searchThread = new SearchThread(searchItem, listModel, list);
 				searchThread.start();
-
-				JList<Result> list = new JList<Result>(listModel);
-				container.add(list, BorderLayout.WEST);
-
 				list.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent evt) {
 						count = 0;
@@ -121,6 +119,8 @@ public class SearchJFrame extends JFrame {
 		container.add(panel, BorderLayout.NORTH);
 
 		container.add(panelCenter, BorderLayout.CENTER);
+		container.add(list, BorderLayout.WEST);
+
 	}
 
 }
